@@ -16,7 +16,7 @@ _start:
 	mov	cx,#36
 	mov	bx,#0x0007		! page 0, attribute 7 (normal)
 	mov	bp,#msg1
-	mov ax #0x07c0
+	mov ax,#0x07c0
 	mov es,ax
 	mov	ax,#0x1301		! write string, move cursor
 	int	0x10
