@@ -30,9 +30,8 @@ read_param:
 	xor bh,bh
 	int 0x10
 	mov [0],dx
+	
 	mov ah,#0x88
-
-	mov ah,#0x88,
 	int 0x15
 	mov [2],ax
 
