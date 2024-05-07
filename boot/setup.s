@@ -24,7 +24,7 @@ _start:
 	int	0x10
 
 read_param:
-	mov as,#INITSEG
+	mov ax,#INITSEG
 	mov ds,ax
 	mov ah,#0x03
 	xor bh,bh
