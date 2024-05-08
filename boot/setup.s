@@ -23,7 +23,7 @@ _start:
 	mov	ax,#0x1301		! write string, move cursor
 	int	0x10
 
-read_param:
+! Get Params
 	mov ax,#INITSEG
 	mov ds,ax
 	mov ah,#0x03
@@ -46,6 +46,50 @@ read_param:
 	! 重复16次
 	rep
 	movsb
+
+! Be Ready to Print
+    mov ax,cs
+    mov es,ax
+    mov ax,#INITSEG
+    mov ds,ax
+
+! Cursor Position
+    mov ah,#0x03
+    xor bh,bh
+    int 0x10
+    mov cx,#18
+    mov bx,#0x0007
+    mov bp,#msg_cursor
+    mov ax,#0x1301
+    int 0x10
+    mov dx,[0]
+    call	print_hex
+
+
+inf_loop:
+    jmp inf_loop
+
+print_hex:
+    mov    cx,#4
+print_digit:
+    rol    dx,#4
+    mov    ax,#0xe0f
+    and    al,dl
+    add    al,#0x30
+    cmp    al,#0x3a
+    jl     outp
+    add    al,#0x07
+outp:
+    int    0x10
+    loop   print_digit
+    ret
+print_nl:
+    mov    ax,#0xe0d     ! CR
+    int    0x10
+    mov    al,#0xa     ! LF
+    int    0x10
+    ret
+
 	
 msg2:
 	.byte 13,10
