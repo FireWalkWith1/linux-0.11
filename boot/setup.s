@@ -96,6 +96,10 @@ msg2:
 	.ascii "Now we are in SETUP"
 	.byte 13,10,13,10
 
+msg_cursor:
+    .byte 13,10
+    .ascii "Cursor position:"
+
 .org 510
 boot_flag:
 	.word 0xAA55
