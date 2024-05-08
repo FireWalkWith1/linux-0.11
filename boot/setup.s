@@ -65,6 +65,59 @@ _start:
     mov dx,[0]
     call	print_hex
 
+! Memory Size
+    mov ah,#0x03
+    xor bh,bh
+    int 0x10
+    mov cx,#14
+    mov bx,#0x0007
+    mov bp,#msg_memory
+    mov ax,#0x1301
+    int 0x10
+    mov dx,[2]
+    call    print_hex
+! Add KB
+    mov ah,#0x03
+    xor bh,bh
+    int 0x10
+    mov cx,#2
+    mov bx,#0x0007
+    mov bp,#msg_kb
+    mov ax,#0x1301
+    int 0x10
+! Cyles
+    mov ah,#0x03
+    xor bh,bh
+    int 0x10
+    mov cx,#7
+    mov bx,#0x0007
+    mov bp,#msg_cyles
+    mov ax,#0x1301
+    int 0x10
+    mov dx,[4]
+    call    print_hex
+! Heads
+    mov ah,#0x03
+    xor bh,bh
+    int 0x10
+    mov cx,#8
+    mov bx,#0x0007
+    mov bp,#msg_heads
+    mov ax,#0x1301
+    int 0x10
+    mov dx,[6]
+    call    print_hex
+! Secotrs
+    mov ah,#0x03
+    xor bh,bh
+    int 0x10
+    mov cx,#10
+    mov bx,#0x0007
+    mov bp,#msg_sectors
+    mov ax,#0x1301
+    int 0x10
+    mov dx,[12]
+    call    print_hex
 
 inf_loop:
     jmp inf_loop
@@ -99,6 +152,20 @@ msg2:
 msg_cursor:
     .byte 13,10
     .ascii "Cursor position:"
+msg_memory:
+    .byte 13,10
+    .ascii "Memory Size:"
+msg_cyles:
+    .byte 13,10
+    .ascii "Cyls:"
+msg_heads:
+    .byte 13,10
+    .ascii "Heads:"
+msg_sectors:
+    .byte 13,10
+    .ascii "Sectors:"
+msg_kb:
+    .ascii "KB"
 
 .org 510
 boot_flag:
