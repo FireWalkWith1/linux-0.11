@@ -13,7 +13,7 @@ int sys_iam(const char *name)
     {
         char c = get_fs_byte(name);
         nameInner[len] = c;
-        if (c == '/0')
+        if (c == '\0')
         {
             finish = 1;
             break;
