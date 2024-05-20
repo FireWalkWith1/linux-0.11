@@ -1,5 +1,6 @@
-#include <segment.h>
+#include <asm/segment.h>
 #include <errno.h>
+#include <string.h>
 
 char *nameOuter;
 
