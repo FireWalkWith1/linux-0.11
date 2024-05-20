@@ -36,7 +36,8 @@ int sys_whoami(char *name, unsigned int size)
     {
         return -EINVAL;
     }
-    for (int i = 0; i <= len; i++)
+    int i = 0;
+    for (i = 0; i <= len; i++)
     {
         put_fs_byte(nameOuter[len], name);
     }
