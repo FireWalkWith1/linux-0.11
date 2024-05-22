@@ -7,6 +7,7 @@ char *nameOuter;
 
 int sys_iam(const char *name)
 {
+    printk("sys_iam\n");
     char *nameInner;
     int len = 0;
     int finish = 0;
@@ -21,7 +22,6 @@ int sys_iam(const char *name)
             break;
         }
         name++;
-        nameInner++;
         len++;
     }
     if (!finish)
