@@ -14,7 +14,7 @@ int sys_iam(const char *name)
     while (len <= 23)
     {
         char c = get_fs_byte(name);
-        printk("c=%c", c);
+        printk("c=%c\n", c);
         nameInner[len] = c;
         if (c == '\0')
         {
@@ -24,12 +24,13 @@ int sys_iam(const char *name)
         name++;
         len++;
     }
+    printk("finish=%d\n", finish);
     if (!finish)
     {
         return -EINVAL;
     }
     strcpy(nameOuter, nameInner);
-    printk("%s", nameOuter);
+    printk("%s\n", nameOuter);
     return len;
 }
 
