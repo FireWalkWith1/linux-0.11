@@ -14,7 +14,7 @@ int sys_iam(const char *name)
     while (len <= 23)
     {
         char c = get_fs_byte(name);
-        printk("%c", c);
+        printk("c=%c", c);
         nameInner[len] = c;
         if (c == '\0')
         {
