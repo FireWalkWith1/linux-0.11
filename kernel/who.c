@@ -29,6 +29,7 @@ int sys_iam(const char *name)
     {
         return -EINVAL;
     }
+    printk("nameInner=%s\n", nameInner);
     strcpy(nameOuter, nameInner);
     printk("nameOuter=%s\n", nameOuter);
     return len;
