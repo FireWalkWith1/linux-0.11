@@ -29,7 +29,7 @@ int sys_iam(const char *name)
     {
         return -EINVAL;
     }
-    // printk("nameInner=%s\n", nameInner);
+    printk("nameInner=%s\n", nameInner);
     // strcpy(nameOuter, nameInner);
     int i = 0;
     for(i = 0; nameInner[i] != '\0'; ++i)
