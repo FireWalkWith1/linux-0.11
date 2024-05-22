@@ -8,7 +8,7 @@ int main(int argc, char const *argv[])
 {
     char name[23];
     int i = whoami(name, 23);
-    printf("return value=%d\n", i);
+    // printf("return value=%d\n", i);
     printf("%s\n", name);
     return 0;
 }
