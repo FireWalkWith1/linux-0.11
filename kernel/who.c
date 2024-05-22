@@ -1,6 +1,7 @@
 #include <asm/segment.h>
 #include <errno.h>
 #include <string.h>
+#include <linux/kernel.h>
 
 char *nameOuter;
 
@@ -12,6 +13,7 @@ int sys_iam(const char *name)
     while (len <= 23)
     {
         char c = get_fs_byte(name);
+        printk("%c", c);
         nameInner[len] = c;
         if (c == '\0')
         {
