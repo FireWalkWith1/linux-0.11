@@ -30,7 +30,12 @@ int sys_iam(const char *name)
         return -EINVAL;
     }
     printk("nameInner=%s\n", nameInner);
-    strcpy(nameOuter, nameInner);
+    // strcpy(nameOuter, nameInner);
+    int i = 0;
+    for(i = 0; nameInner[i] != '\0'; ++i)
+    {
+        nameOuter[i] = nameInner[i];
+    }
     printk("nameOuter=%s\n", nameOuter);
     return len;
 }
