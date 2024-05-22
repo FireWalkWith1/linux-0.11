@@ -32,7 +32,7 @@ int sys_iam(const char *name)
     printk("nameInner=%s\n", nameInner);
     // strcpy(nameOuter, nameInner);
     int i = 0;
-    for(i = 0; nameInner[i] != '\0'; ++i)
+    for(i = 0; i <= len; ++i)
     {
         nameOuter[i] = nameInner[i];
     }
