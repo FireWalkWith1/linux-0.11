@@ -7,14 +7,14 @@ char *nameOuter;
 
 int sys_iam(const char *name)
 {
-    printk("sys_iam\n");
+    // printk("sys_iam\n");
     char *nameInner;
     int len = 0;
     int finish = 0;
     while (len <= 23)
     {
         char c = get_fs_byte(name);
-        printk("%c", c);
+        // printk("%c", c);
         nameInner[len] = c;
         if (c == '\0')
         {
