@@ -52,8 +52,8 @@ int sys_whoami(char *name, unsigned int size)
     int i = 0;
     for (i = 0; i <= len; i++)
     {
-        printk("c=%c\n", nameOuter[len]);
-        put_fs_byte(nameOuter[len], name + i);
+        printk("c=%c\n", nameOuter[i]);
+        put_fs_byte(nameOuter[i], name + i);
     }
     return len;
 }
