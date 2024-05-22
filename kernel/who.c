@@ -20,6 +20,7 @@ int sys_iam(const char *name)
         }
         name++;
         nameInner++;
+        len++;
     }
     if (!finish)
     {
