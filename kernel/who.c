@@ -29,14 +29,14 @@ int sys_iam(const char *name)
     {
         return -EINVAL;
     }
-    printk("nameInner=%s\n", nameInner);
+    // printk("nameInner=%s\n", nameInner);
     // strcpy(nameOuter, nameInner);
     int i = 0;
     for(i = 0; i <= len; ++i)
     {
         nameOuter[i] = nameInner[i];
     }
-    printk("nameOuter=%s\n", nameOuter);
+    // printk("nameOuter=%s\n", nameOuter);
     return len;
 }
 
@@ -45,7 +45,7 @@ int sys_whoami(char *name, unsigned int size)
     int len = strlen(nameOuter);
     printk("len=%d\n", len);
     // printk("size=%d\n", size);
-    if (len == 0 || len > size)
+    if (len > size)
     {
         return -EINVAL;
     }
