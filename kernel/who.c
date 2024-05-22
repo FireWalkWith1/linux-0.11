@@ -3,12 +3,12 @@
 #include <string.h>
 #include <linux/kernel.h>
 
-char *nameOuter;
+char nameOuter[24];
 
 int sys_iam(const char *name)
 {
     // printk("sys_iam\n");
-    char *nameInner;
+    char nameInner[24];
     int len = 0;
     int finish = 0;
     while (len <= 23)
@@ -28,7 +28,7 @@ int sys_iam(const char *name)
     {
         return -EINVAL;
     }
-    nameOuter = nameInner;
+    strcpy(nameOuter, nameInner);
     return len;
 }
 
