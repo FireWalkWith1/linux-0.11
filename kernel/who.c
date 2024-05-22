@@ -44,6 +44,7 @@ int sys_whoami(char *name, unsigned int size)
 {
     int len = strlen(nameOuter);
     printk("len=%d\n", len);
+    printk("size=%d\n", size);
     if (len == 0 || len > size)
     {
         return -EINVAL;
