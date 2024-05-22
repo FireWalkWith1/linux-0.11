@@ -7,14 +7,14 @@ char nameOuter[24];
 
 int sys_iam(const char *name)
 {
-    printk("sys_iam\n");
+    // printk("sys_iam\n");
     char nameInner[24];
     int len = 0;
     int finish = 0;
     while (len <= 23)
     {
         char c = get_fs_byte(name);
-        printk("c=%c\n", c);
+        // printk("c=%c\n", c);
         nameInner[len] = c;
         if (c == '\0')
         {
@@ -24,12 +24,12 @@ int sys_iam(const char *name)
         name++;
         len++;
     }
-    printk("finish=%d\n", finish);
+    // printk("finish=%d\n", finish);
     if (!finish)
     {
         return -EINVAL;
     }
-    printk("nameInner=%s\n", nameInner);
+    // printk("nameInner=%s\n", nameInner);
     // strcpy(nameOuter, nameInner);
     int i = 0;
     for(i = 0; nameInner[i] != '\0'; ++i)
@@ -43,8 +43,8 @@ int sys_iam(const char *name)
 int sys_whoami(char *name, unsigned int size)
 {
     int len = strlen(nameOuter);
-    printk("len=%d\n", len);
-    printk("size=%d\n", size);
+    // printk("len=%d\n", len);
+    // printk("size=%d\n", size);
     if (len == 0 || len > size)
     {
         return -EINVAL;
@@ -52,7 +52,7 @@ int sys_whoami(char *name, unsigned int size)
     int i = 0;
     for (i = 0; i <= len; i++)
     {
-        printk("c=%c\n", nameOuter[i]);
+        // printk("c=%c\n", nameOuter[i]);
         put_fs_byte(nameOuter[i], name + i);
     }
     return len;
