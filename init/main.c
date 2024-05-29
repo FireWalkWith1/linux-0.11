@@ -203,9 +203,6 @@ void init(void)
 		if (!pid) {
 			close(0);close(1);close(2);
 			setsid();
-			(void) open("/dev/tty0",O_RDWR,0);
-			(void) dup(0);
-			(void) dup(0);
 			_exit(execve("/bin/sh",argv,envp));
 		}
 		while (1)
