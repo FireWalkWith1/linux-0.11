@@ -13,6 +13,10 @@
 #include <linux/tty.h>
 #include <asm/segment.h>
 
+extern long jiffies;
+
+extern int fprintk(int fd, const char *fmt, ...);
+
 int sys_pause(void);
 int sys_close(int fd);
 

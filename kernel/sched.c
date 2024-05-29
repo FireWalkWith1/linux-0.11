@@ -25,6 +25,8 @@
 
 extern long jiffies;
 
+extern int fprintk(int fd, const char *fmt, ...);
+
 void show_task(int nr,struct task_struct * p)
 {
 	int i,j = 4096-sizeof(struct task_struct);

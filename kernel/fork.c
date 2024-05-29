@@ -21,6 +21,8 @@ extern void write_verify(unsigned long address);
 
 extern long jiffies;
 
+extern int fprintk(int fd, const char *fmt, ...);
+
 long last_pid=0;
 
 void verify_area(void * addr,int size)
