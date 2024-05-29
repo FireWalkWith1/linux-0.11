@@ -19,6 +19,8 @@
 
 extern void write_verify(unsigned long address);
 
+extern long jiffies;
+
 long last_pid=0;
 
 void verify_area(void * addr,int size)
@@ -130,6 +132,9 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	set_tss_desc(gdt+(nr<<1)+FIRST_TSS_ENTRY,&(p->tss));
 	set_ldt_desc(gdt+(nr<<1)+FIRST_LDT_ENTRY,&(p->ldt));
 	p->state = TASK_RUNNING;	/* do this last, just in case */
+
+	fprintk(3, "%ld\t%c\t%ld\n", p->pid, 'N', jiffies);
+	fprintk(3, "%ld\t%c\t%ld\n", p->pid, 'J', jiffies);
 	return last_pid;
 }
 

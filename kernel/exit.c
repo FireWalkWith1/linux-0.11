@@ -184,6 +184,7 @@ repeat:
 		if (options & WNOHANG)
 			return 0;
 		current->state=TASK_INTERRUPTIBLE;
+		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
 		schedule();
 		if (!(current->signal &= ~(1<<(SIGCHLD-1))))
 			goto repeat;

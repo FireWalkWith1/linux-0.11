@@ -23,6 +23,8 @@
 #define _S(nr) (1<<((nr)-1))
 #define _BLOCKABLE (~(_S(SIGKILL) | _S(SIGSTOP)))
 
+extern long jiffies;
+
 void show_task(int nr,struct task_struct * p)
 {
 	int i,j = 4096-sizeof(struct task_struct);
@@ -138,12 +140,17 @@ void schedule(void)
 				(*p)->counter = ((*p)->counter >> 1) +
 						(*p)->priority;
 	}
+	if (current != task[next]) {
+		fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'J', jiffies);
+		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'R', jiffies);
+	}
 	switch_to(next);
 }
 
 int sys_pause(void)
 {
 	current->state = TASK_INTERRUPTIBLE;
+	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
 	schedule();
 	return 0;
 }
@@ -159,9 +166,13 @@ void sleep_on(struct task_struct **p)
 	tmp = *p;
 	*p = current;
 	current->state = TASK_UNINTERRUPTIBLE;
+	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
 	schedule();
-	if (tmp)
+	if (tmp) {
 		tmp->state=0;
+		fprintk(3, "%ld\t%c\t%ld\n", tmp->pid, 'J', jiffies);
+	}
+		
 }
 
 void interruptible_sleep_on(struct task_struct **p)
@@ -175,20 +186,25 @@ void interruptible_sleep_on(struct task_struct **p)
 	tmp=*p;
 	*p=current;
 repeat:	current->state = TASK_INTERRUPTIBLE;
+	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
 	schedule();
 	if (*p && *p != current) {
 		(**p).state=0;
 		goto repeat;
 	}
 	*p=NULL;
-	if (tmp)
+	if (tmp) {
 		tmp->state=0;
+		fprintk(3, "%ld\t%c\t%ld\n", tmp->pid, 'J', jiffies);
+	}
+		
 }
 
 void wake_up(struct task_struct **p)
 {
 	if (p && *p) {
 		(**p).state=0;
+		fprintk(3, "%ld\t%c\t%ld\n", (**p).pid, 'J', jiffies);
 		*p=NULL;
 	}
 }
