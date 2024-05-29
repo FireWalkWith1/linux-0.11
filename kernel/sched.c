@@ -23,8 +23,6 @@
 #define _S(nr) (1<<((nr)-1))
 #define _BLOCKABLE (~(_S(SIGKILL) | _S(SIGSTOP)))
 
-extern long jiffies;
-
 extern int fprintk(int fd, const char *fmt, ...);
 
 void show_task(int nr,struct task_struct * p)
