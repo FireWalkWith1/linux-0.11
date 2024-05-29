@@ -136,6 +136,8 @@ void main(void)		/* This really IS void, no error here. */
 	sti();
 	move_to_user_mode();
 
+	setup((void *) &drive_info);
+
 	// 建立文件描述符0和/dev/tty0的关联
 	(void) open("/dev/tty0",O_RDWR,0);
 
@@ -181,7 +183,6 @@ void init(void)
 {
 	int pid,i;
 
-	setup((void *) &drive_info);
 	printf("%d buffers = %d bytes buffer space\n\r",NR_BUFFERS,
 		NR_BUFFERS*BLOCK_SIZE);
 	printf("Free mem: %d bytes\n\r",memory_end-main_memory_start);
@@ -203,6 +204,9 @@ void init(void)
 		if (!pid) {
 			close(0);close(1);close(2);
 			setsid();
+			(void) open("/dev/tty0",O_RDWR,0);
+			(void) dup(0);
+			(void) dup(0);
 			_exit(execve("/bin/sh",argv,envp));
 		}
 		while (1)
