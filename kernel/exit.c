@@ -130,6 +130,7 @@ int do_exit(long code)
 		kill_session();
 	current->state = TASK_ZOMBIE;
 	current->exit_code = code;
+	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'E', jiffies);
 	tell_father(current->father);
 	schedule();
 	return (-1);	/* just to suppress warnings */
