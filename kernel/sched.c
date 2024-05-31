@@ -143,17 +143,13 @@ void schedule(void)
 				(*p)->counter = ((*p)->counter >> 1) +
 						(*p)->priority;
 	}
-	if (current->state == TASK_RUNNING) {
-		if (current != task[next]) { 
-			fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'J', jiffies);
-			fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
-		}
-	} else {
-		// fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
+
+	if (current != task[next]) { 
+		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'J', jiffies);
+		fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
 	}
-	// if (current -> pid == 0 && next == 0) {
-	// 	fprintk(3, "0 to 0\n");
-	// }
+	
+
 	switch_to(next);
 }
 
