@@ -149,7 +149,7 @@ void schedule(void)
 			fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
 		}
 	} else {
-		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'R', jiffies);
+		fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
 	}
 	// if (current -> pid == 0 && next == 0) {
 	// 	fprintk(3, "0 to 0\n");
