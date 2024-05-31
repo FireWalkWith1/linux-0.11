@@ -134,9 +134,9 @@ void schedule(void)
 			if ((*p)->state == TASK_RUNNING && (*p)->counter > c)
 				c = (*p)->counter, next = i;
 		}
-		if (next ==0 && c) {
-			fprintk(3, "c=%ld\n", c);
-		}
+		// if (next ==0 && c) {
+		// 	fprintk(3, "c=%ld\n", c);
+		// }
 		if (c) break;
 		for(p = &LAST_TASK ; p > &FIRST_TASK ; --p)
 			if (*p)
@@ -151,9 +151,9 @@ void schedule(void)
 	} else {
 		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'R', jiffies);
 	}
-	if (current -> pid == 0 && next == 0) {
-		fprintk(3, "0 to 0\n");
-	}
+	// if (current -> pid == 0 && next == 0) {
+	// 	fprintk(3, "0 to 0\n");
+	// }
 	switch_to(next);
 }
 
