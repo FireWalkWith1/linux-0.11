@@ -145,7 +145,7 @@ void schedule(void)
 	}
 	if (current->state == TASK_RUNNING) {
 		if (current != task[next]) { 
-			fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'J', jiffies);
+			fprintk(3, "%ld\t%c2\t%ld\n", current->pid, 'J', jiffies);
 			fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
 		}
 	} else {
@@ -180,7 +180,7 @@ void sleep_on(struct task_struct **p)
 	schedule();
 	if (tmp) {
 		tmp->state=0;
-		fprintk(3, "%ld\t%c\t%ld\n", tmp->pid, 'J', jiffies);
+		fprintk(3, "%ld\t%c3\t%ld\n", tmp->pid, 'J', jiffies);
 	}
 		
 }
@@ -205,7 +205,7 @@ repeat:	current->state = TASK_INTERRUPTIBLE;
 	*p=NULL;
 	if (tmp) {
 		tmp->state=0;
-		fprintk(3, "%ld\t%c\t%ld\n", tmp->pid, 'J', jiffies);
+		fprintk(3, "%ld\t%c4\t%ld\n", tmp->pid, 'J', jiffies);
 	}
 		
 }
@@ -214,7 +214,7 @@ void wake_up(struct task_struct **p)
 {
 	if (p && *p) {
 		(**p).state=0;
-		fprintk(3, "%ld\t%c\t%ld\n", (**p).pid, 'J', jiffies);
+		fprintk(3, "%ld\t%c5\t%ld\n", (**p).pid, 'J', jiffies);
 		*p=NULL;
 	}
 }
