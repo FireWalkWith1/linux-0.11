@@ -148,6 +148,9 @@ void schedule(void)
 	} else {
 		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'R', jiffies);
 	}
+	if (current -> pid == 0 || next == 0) {
+		fprintk(3, "1 to 1\n");
+	}
 	switch_to(next);
 }
 
