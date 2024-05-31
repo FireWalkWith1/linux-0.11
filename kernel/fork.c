@@ -134,7 +134,7 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	p->state = TASK_RUNNING;	/* do this last, just in case */
 
 	fprintk(3, "%ld\t%c\t%ld\n", p->pid, 'N', jiffies);
-	fprintk(3, "%ld\t%c1\t%ld\n", p->pid, 'J', jiffies);
+	fprintk(3, "%ld\t%c\t%ld\n", p->pid, 'J', jiffies);
 	return last_pid;
 }
 
