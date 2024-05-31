@@ -144,7 +144,7 @@ void schedule(void)
 						(*p)->priority;
 	}
 	if (current != task[next]) { 
-		if (current->state == TASK_RUNNING) {
+		if (current->state == TASK_RUNNING || current -> pid == 0) {
 			fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'J', jiffies);
 		}
 		fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
