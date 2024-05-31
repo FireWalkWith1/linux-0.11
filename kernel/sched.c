@@ -358,6 +358,7 @@ void do_timer(long cpl)
 	if ((--current->counter)>0) return;
 	current->counter=0;
 	if (!cpl) return;
+	fprintk(3, "do_timer\n");
 	schedule();
 }
 
