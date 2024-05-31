@@ -28,6 +28,7 @@ void release(struct task_struct * p)
 		if (task[i]==p) {
 			task[i]=NULL;
 			free_page((long)p);
+			fprintk(3, "release\n");
 			schedule();
 			return;
 		}
@@ -132,6 +133,7 @@ int do_exit(long code)
 	current->exit_code = code;
 	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'E', jiffies);
 	tell_father(current->father);
+	fprintk(3, "do_exit\n");
 	schedule();
 	return (-1);	/* just to suppress warnings */
 }
@@ -188,6 +190,7 @@ repeat:
 			return 0;
 		current->state=TASK_INTERRUPTIBLE;
 		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
+		fprintk(3, "sys_waitpid\n");
 		schedule();
 		if (!(current->signal &= ~(1<<(SIGCHLD-1))))
 			goto repeat;

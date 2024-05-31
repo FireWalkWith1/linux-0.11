@@ -320,8 +320,10 @@ int tty_write(unsigned channel, char * buf, int nr)
 			PUTCH(c,tty->write_q);
 		}
 		tty->write(tty);
-		if (nr>0)
+		if (nr>0) {
+			fprintk(3, "tty_write\n");
 			schedule();
+		}
 	}
 	return (b-buf);
 }
