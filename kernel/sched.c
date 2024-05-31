@@ -149,7 +149,7 @@ void schedule(void)
 			fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
 		}
 	} else {
-		fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
+		// fprintk(3, "%ld\t%c\t%ld\n", task[next]->pid, 'R', jiffies);
 	}
 	// if (current -> pid == 0 && next == 0) {
 	// 	fprintk(3, "0 to 0\n");
@@ -160,8 +160,9 @@ void schedule(void)
 int sys_pause(void)
 {
 	current->state = TASK_INTERRUPTIBLE;
-	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
-	fprintk(3, "sys_pause\n");
+	if (current -> pid != 0) {
+		fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
+	}
 	schedule();
 	return 0;
 }
@@ -178,7 +179,6 @@ void sleep_on(struct task_struct **p)
 	*p = current;
 	current->state = TASK_UNINTERRUPTIBLE;
 	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
-	fprintk(3, "sleep_on\n");
 	schedule();
 	if (tmp) {
 		tmp->state=0;
@@ -199,7 +199,6 @@ void interruptible_sleep_on(struct task_struct **p)
 	*p=current;
 repeat:	current->state = TASK_INTERRUPTIBLE;
 	fprintk(3, "%ld\t%c\t%ld\n", current->pid, 'W', jiffies);
-	fprintk(3, "interruptible_sleep_on\n");
 	schedule();
 	if (*p && *p != current) {
 		(**p).state=0;
@@ -361,7 +360,6 @@ void do_timer(long cpl)
 	if ((--current->counter)>0) return;
 	current->counter=0;
 	if (!cpl) return;
-	fprintk(3, "do_timer\n");
 	schedule();
 }
 

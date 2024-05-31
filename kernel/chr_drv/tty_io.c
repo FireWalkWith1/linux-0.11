@@ -321,7 +321,6 @@ int tty_write(unsigned channel, char * buf, int nr)
 		}
 		tty->write(tty);
 		if (nr>0) {
-			fprintk(3, "tty_write\n");
 			schedule();
 		}
 	}
