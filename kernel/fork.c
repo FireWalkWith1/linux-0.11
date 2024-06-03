@@ -116,9 +116,8 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	if (last_task_used_math == current)
 		__asm__("clts ; fnsave %0"::"m" (p->tss.i387));long
 
-	long * krnstack;
-	int len = sizeof(long);
-	krnstack = (long *)(PAGE_SIZE + (long)p);
+	int * krnstack;
+	krnstack = (int *)(PAGE_SIZE + (long)p);
 	*(--krnstack) = ss & 0xffff;
 	*(--krnstack) = esp;
 	*(--krnstack) = eflags;
