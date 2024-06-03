@@ -61,7 +61,7 @@ int copy_mem(int nr,struct task_struct * p)
 	return 0;
 }
 
-extern void first_return_from_kernel();
+extern long first_return_from_kernel(void);
 /*
  *  Ok, this is the main fork-routine. It copies the system process
  * information (task[nr]) and sets up the necessary registers. It
@@ -120,8 +120,8 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	*(--krnstack) = ss & 0xffff;
 	*(--krnstack) = esp;
 	*(--krnstack) = eflags;
-	*(--krnstack) = eip;
 	*(--krnstack) = cs & 0xffff;
+	*(--krnstack) = eip;
 	*(--krnstack) = (long)first_return_from_kernel;
 	*(--krnstack) = ebp;
 	*(--krnstack) = ecx;
