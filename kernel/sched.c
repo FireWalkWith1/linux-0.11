@@ -139,9 +139,9 @@ void schedule(void)
 				(*p)->counter = ((*p)->counter >> 1) +
 						(*p)->priority;
 	}
-	printk("call switch_to before, next=%d", next);
+	// printk("call switch_to before, next=%d", next);
 	switch_to(task[next], _LDT(next));
-	printk("call switch_to after, next=%d", next);
+	// printk("call switch_to after, next=%d", next);
 }
 
 int sys_pause(void)
