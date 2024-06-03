@@ -48,9 +48,9 @@ OLDSS		= 0x2C
 state	= 0		# these are offsets into the task-struct.
 counter	= 4
 priority = 8
-signal	= 12
+signal	= 16
 sigaction = 16		# MUST be 16 (=len of sigaction)
-blocked = (33*16)
+blocked = (33*16+4)
 
 # offsets within sigaction
 sa_handler = 0
@@ -64,7 +64,7 @@ nr_system_calls = 72
  * Ok, I get parallel printer interrupts while using the floppy for some
  * strange reason. Urgel. Now I just ignore them.
  */
-.globl system_call,sys_fork,timer_interrupt,sys_execve
+.globl system_call,sys_fork,timer_interrupt,sys_execve,first_return_from_kernel
 .globl hd_interrupt,floppy_interrupt,parallel_interrupt
 .globl device_not_available, coprocessor_error
 
@@ -217,6 +217,16 @@ sys_fork:
 	call copy_process
 	addl $20,%esp
 1:	ret
+
+first_return_from_kernel:
+	popl %edx
+	popl %edi
+	popl %esi
+	pop %gs
+	pop %fs
+	pop %es
+	pop %ds
+	iret
 
 hd_interrupt:
 	pushl %eax

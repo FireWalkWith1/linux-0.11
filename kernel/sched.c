@@ -57,6 +57,8 @@ union task_union {
 
 static union task_union init_task = {INIT_TASK,};
 
+struct tss_struct *tss = &(init_task.task.tss);
+
 long volatile jiffies=0;
 long startup_time=0;
 struct task_struct *current = &(init_task.task);
@@ -120,7 +122,6 @@ void schedule(void)
 		}
 
 /* this is the scheduler proper: */
-
 	while (1) {
 		c = -1;
 		next = 0;
@@ -138,7 +139,7 @@ void schedule(void)
 				(*p)->counter = ((*p)->counter >> 1) +
 						(*p)->priority;
 	}
-	switch_to(next);
+	switch_to(task[next], _LDT(next));
 }
 
 int sys_pause(void)

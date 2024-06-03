@@ -112,7 +112,20 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	p->tss.ldt = _LDT(nr);
 	p->tss.trace_bitmap = 0x80000000;
 	if (last_task_used_math == current)
-		__asm__("clts ; fnsave %0"::"m" (p->tss.i387));
+		__asm__("clts ; fnsave %0"::"m" (p->tss.i387));long
+
+	long * krnstack = (long *)(PAGE_SIZE + (long)p);
+	*(--krnstack) = ss & 0xffff;
+	*(--krnstack) = esp;
+	*(--krnstack) = eflags;
+	*(--krnstack) = cs & 0xffff;
+	*(--krnstack) = eip;
+	*(--krnstack) = ebp;
+	*(--krnstack) = ecx;
+	*(--krnstack) = ebx;
+	*(--krnstack) = 0;
+	*(--krnstack) = (long)first_return_from_kernel;
+	p->kernelstack = krnstack;
 	if (copy_mem(nr,p)) {
 		task[nr] = NULL;
 		free_page((long) p);
