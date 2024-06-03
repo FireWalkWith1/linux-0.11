@@ -130,7 +130,7 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	*(--krnstack) = esi;
 	*(--krnstack) = edi;
 	*(--krnstack) = edx;
-	*(--krnstack) = (long)first_return_from_kernel;
+	*(--krnstack) = (int)first_return_from_kernel;
 	*(--krnstack) = ebp;
 	*(--krnstack) = ecx;
 	*(--krnstack) = ebx;
