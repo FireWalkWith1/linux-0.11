@@ -117,7 +117,7 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 		__asm__("clts ; fnsave %0"::"m" (p->tss.i387));long
 
 	long * krnstack;
-	krnstack = (long)(PAGE_SIZE + (long)p);
+	krnstack = (long *)(PAGE_SIZE + (long)p);
 	*(--krnstack) = ss & 0xffff;
 	*(--krnstack) = esp;
 	*(--krnstack) = eflags;
