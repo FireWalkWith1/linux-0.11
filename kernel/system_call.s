@@ -50,7 +50,7 @@ counter	= 4
 priority = 8
 signal	= 16
 sigaction = 16		# MUST be 16 (=len of sigaction)
-blocked = (33*16+4)
+blocked = 532
 
 # offsets within sigaction
 sa_handler = 0
