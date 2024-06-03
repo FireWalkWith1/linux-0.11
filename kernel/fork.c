@@ -122,6 +122,13 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	*(--krnstack) = eflags;
 	*(--krnstack) = cs & 0xffff;
 	*(--krnstack) = eip;
+	*(--krnstack) = ds & 0xffff;
+	*(--krnstack) = es & 0xffff;
+	*(--krnstack) = fs & 0xffff;
+	*(--krnstack) = gs & 0xffff;
+	*(--krnstack) = esi;
+	*(--krnstack) = edi;
+	*(--krnstack) = edx;
 	*(--krnstack) = (long)first_return_from_kernel;
 	*(--krnstack) = ebp;
 	*(--krnstack) = ecx;
