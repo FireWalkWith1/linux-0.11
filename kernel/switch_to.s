@@ -15,25 +15,24 @@ switch_to:
     movl 8(%ebp),%ebx
     cmpl %ebx,current
     je 1f
-! 切换PCB
+! exchange PCB
     movl %ebx,%eax
     xchgl %eax,current
 ! TSS中的内核栈指针的重写
     movl tss,%ecx
     addl $4096,%ebx
     movl %ebx,ESP0(%ecx)
-! 切换内核栈
+! exchange kernel stack
     movl %esp,KERNEL_STACK(%eax)
-! 再取一下 ebx，因为前面修改过 ebx 的值
+! reget ebx
     movl 8(%ebp),%ebx
     movl KERNEL_STACK(%ebx),%esp
-! 切换LDT
+! exchange LDT
     movl 12(%ebp),%ecx
     lldt %cx
-    ! ...
     movl $0x17,%ecx
     mov %cx,%fs
-! 和后面的 clts 配合来处理协处理器，由于和主题关系不大，此处不做论述
+! hanle clts etc
     cmpl %eax,last_task_used_math
     jne 1f
     clts
