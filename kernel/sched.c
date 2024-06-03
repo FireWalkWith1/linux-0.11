@@ -126,6 +126,7 @@ void schedule(void)
 	while (1) {
 		c = -1;
 		next = 0;
+		pnext = &init_task.task;
 		i = NR_TASKS;
 		p = &task[NR_TASKS];
 		while (--i) {
