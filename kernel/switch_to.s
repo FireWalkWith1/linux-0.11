@@ -3,6 +3,9 @@ ESP0 = 4
 KERNEL_STACK = 12
 
 .globl switch_to
+
+.align 2
+
 switch_to:
     pushl %ebp
     movl %esp,%ebp
