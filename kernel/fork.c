@@ -72,6 +72,7 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 		long fs,long es,long ds,
 		long eip,long cs,long eflags,long esp,long ss)
 {
+	printk("copy_process start,current=%ld\n, pid=", current->pid, last_pid);
 	struct task_struct *p;
 	int i;
 	struct file *f;
@@ -145,6 +146,7 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	set_ldt_desc(gdt+(nr<<1)+FIRST_LDT_ENTRY,&(p->ldt));
 	p->state = TASK_RUNNING;	/* do this last, just in case */
 	return last_pid;
+	printk("copy_process end,current=%ld, pid=\n", current->pid, last_pid);
 }
 
 int find_empty_process(void)
