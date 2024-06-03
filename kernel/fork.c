@@ -61,6 +61,7 @@ int copy_mem(int nr,struct task_struct * p)
 	return 0;
 }
 
+extern void first_return_from_kernel();
 /*
  *  Ok, this is the main fork-routine. It copies the system process
  * information (task[nr]) and sets up the necessary registers. It
