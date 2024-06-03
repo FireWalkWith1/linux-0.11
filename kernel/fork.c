@@ -119,13 +119,13 @@ int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
 	*(--krnstack) = ss & 0xffff;
 	*(--krnstack) = esp;
 	*(--krnstack) = eflags;
-	*(--krnstack) = cs & 0xffff;
 	*(--krnstack) = eip;
+	*(--krnstack) = cs & 0xffff;
+	*(--krnstack) = (long)first_return_from_kernel;
 	*(--krnstack) = ebp;
 	*(--krnstack) = ecx;
 	*(--krnstack) = ebx;
 	*(--krnstack) = 0;
-	*(--krnstack) = (long)first_return_from_kernel;
 	p->kernelstack = krnstack;
 	if (copy_mem(nr,p)) {
 		task[nr] = NULL;
