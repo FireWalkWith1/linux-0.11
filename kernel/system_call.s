@@ -218,6 +218,7 @@ sys_fork:
 	addl $20,%esp
 1:	ret
 
+.align 2
 first_return_from_kernel:
 	popl %edx
 	popl %edi
