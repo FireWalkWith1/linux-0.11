@@ -107,6 +107,7 @@ void schedule(void)
 {
 	int i,next,c;
 	struct task_struct ** p;
+	struct task_struct * pnext;
 
 /* check alarm, wake up any interruptible tasks that have got a signal */
 
@@ -131,7 +132,7 @@ void schedule(void)
 			if (!*--p)
 				continue;
 			if ((*p)->state == TASK_RUNNING && (*p)->counter > c)
-				c = (*p)->counter, next = i;
+				c = (*p)->counter, next = i, pnext = *p;
 		}
 		if (c) break;
 		for(p = &LAST_TASK ; p > &FIRST_TASK ; --p)
@@ -139,9 +140,9 @@ void schedule(void)
 				(*p)->counter = ((*p)->counter >> 1) +
 						(*p)->priority;
 	}
-	printk("call switch_to before, next=%d", next);
-	switch_to(task[next], _LDT(next));
-	printk("call switch_to after, next=%d", next);
+	printk("call switch_to before, next=%d\n", next);
+	switch_to(pnext, _LDT(next));
+	printk("call switch_to after, next=%d\n", next);
 }
 
 int sys_pause(void)
