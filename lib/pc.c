@@ -1,18 +1,41 @@
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <semaphore.h>
+#include <unistd.h>
 
 int main(int argc, char * argv[])
 {
 
     int fd = open("pc.txt", O_RDWR, 0770);
-    
+    sem_t * mutex_sem = sem_open("/mutex", O_CREAT, 0666, 1);
+    sem_t * empty_sem = sem_open("/empty", O_CREAT, 0666, 10);
+    sem_t * full_sem = sem_open("/full", O_CREAT, 0666, 0);
     int i;
-    for (i = 0; i <10; i++) {
-        int wpid1 = fork();
-        if (wpid1 == 0) {
-
+    int isFather = 1;
+    for (i = 0; i < 10 && isFather; i++) {
+        int wpid = fork();
+        if (wpid == 0) {
+            isFather = 0;
+            __pid_t pid = getpid;
+            sem_wait(mutex_sem);
+            sem_wait(full_sem);
+            char buffer[1];
+            read(fd, buffer, 1);
+            print("%d:%c\n", pid, buffer[0]);
+            sem_post(empty_sem);
+            sem_post(mutex_sem);
+        }
+    }
+    if (isFather) {
+        char c = 0;
+        for (c = 0; c < 500; c++) {
+            sem_wait(mutex_sem);
+            sem_wait(empty_sem);
+            write(fd, &c, 1);
+            sem_post(full_sem);
+            sem_post(mutex_sem);
         }
     }
     
-	
 	return 0;
 }
