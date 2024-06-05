@@ -16,11 +16,12 @@ int main(int argc, char * argv[])
     for (i = 0; i < 10 && isFather; i++) {
         int wpid = fork();
         if (wpid == 0) {
-            printf("read...\n");
+            printf("fork...\n");
             isFather = 0;
             __pid_t pid = getpid();
             sem_wait(full_sem);
             sem_wait(mutex_sem);
+            printf("read...\n");
             char buffer[1];
             read(fd, buffer, 1);
             printf("%d:%c\n", pid, buffer[0]);
@@ -31,9 +32,9 @@ int main(int argc, char * argv[])
     if (isFather) {
         char c = 0;
         for (c = 0; c < 500; c++) {
-            printf("write...\n");
             sem_wait(empty_sem);
             sem_wait(mutex_sem);
+            printf("write...\n");
             write(fd, &c, 1);
             sem_post(mutex_sem);
             sem_post(full_sem);
