@@ -16,6 +16,7 @@ int main(int argc, char * argv[])
     for (i = 0; i < 10 && isFather; i++) {
         int wpid = fork();
         if (wpid == 0) {
+            printf("read...\n");
             isFather = 0;
             __pid_t pid = getpid();
             sem_wait(full_sem);
@@ -30,6 +31,7 @@ int main(int argc, char * argv[])
     if (isFather) {
         char c = 0;
         for (c = 0; c < 500; c++) {
+            printf("write...\n");
             sem_wait(empty_sem);
             sem_wait(mutex_sem);
             write(fd, &c, 1);
