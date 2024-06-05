@@ -32,6 +32,7 @@ int main(int argc, char * argv[])
     if (isFather) {
         char c = 0;
         for (c = 0; c < 500; c++) {
+            printf("wait empty_sem...\n");
             sem_wait(empty_sem);
             sem_wait(mutex_sem);
             printf("write...\n");
