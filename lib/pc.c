@@ -2,6 +2,7 @@
 #include <sys/stat.h>
 #include <semaphore.h>
 #include <unistd.h>
+# include <stdio.h>
 
 int main(int argc, char * argv[])
 {
@@ -21,7 +22,7 @@ int main(int argc, char * argv[])
             sem_wait(full_sem);
             char buffer[1];
             read(fd, buffer, 1);
-            print("%d:%c\n", pid, buffer[0]);
+            printf("%d:%c\n", pid, buffer[0]);
             sem_post(empty_sem);
             sem_post(mutex_sem);
         }
