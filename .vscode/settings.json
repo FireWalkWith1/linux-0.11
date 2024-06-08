@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "fcntl.h": "c",
-        "stdarg.h": "c"
+        "stdarg.h": "c",
+        "string.h": "c",
+        "errno.h": "c",
+        "system.h": "c",
+        "sched.h": "c"
     }
 }
