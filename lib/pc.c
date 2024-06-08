@@ -2,52 +2,108 @@
 #include <sys/stat.h>
 #include <semaphore.h>
 #include <unistd.h>
-# include <stdio.h>
+#include <stdio.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+int fd;
+sem_t *mutex_sem, *empty_sem, *full_sem;
+const int buf_size = 10;
+const int readNumPos = buf_size * sizeof(int);
+void customer();
+void produce();
 
 int main(int argc, char * argv[])
 {
-    printf("main...\n");
-    int fd = open("pc.txt", O_RDWR, 0770);
-    sem_t * mutex_sem = sem_open("/mutex", O_CREAT, 0666, 1);
-    sem_t * empty_sem = sem_open("/empty", O_CREAT, 0666, 10);
-    sem_t * full_sem = sem_open("/full", O_CREAT, 0666, 0);
+    fd = open("pc.txt", O_RDWR, 0770);
+	if (!fd) {
+		perror("打开文件失败\n");
+		return -1;
+	}
+    mutex_sem = sem_open("/mutex", O_CREAT, 0666, 1);
+	if (mutex_sem == NULL) {
+		perror("open mutex sem error");
+		return -1;
+	}
+    empty_sem = sem_open("/empty", O_CREAT, 0666, 10);
+	if (empty_sem == NULL) {
+		perror("open empty sem error");
+		return -1;
+	}
+    full_sem = sem_open("/full", O_CREAT, 0666, 0);
+	if (full_sem == NULL) {
+		perror("open full sem error");
+		return -1;
+	}
     int i;
-    int isFather = 1;
-    for (i = 0; i < 10 && isFather; i++) {
-        int wpid = fork();
-        if (wpid == 0) {
-            printf("fork...\n");
-            isFather = 0;
-            __pid_t pid = getpid();
-            while(1) {
-                int r;
-                sem_wait(full_sem);
-                sem_wait(mutex_sem);
-                printf("read...\n");
-                char buffer[1];
-                read(fd, buffer, 1);
-                printf("%d:%c\n", pid, buffer[0]);
-                sem_post(mutex_sem);
-                sem_post(empty_sem);
-                if (buffer[0] == 499) {
-
-                }
-            }
-            
+    for (i = 0; i < 10; i++) {
+        int pid = fork();
+        if (pid == 0) {
+            customer();
+			exit(0);
         }
     }
-    if (isFather) {
-        char c = 0;
-        for (c = 0; c < 500; c++) {
-            printf("wait empty_sem...\n");
-            sem_wait(empty_sem);
-            sem_wait(mutex_sem);
-            printf("write...\n");
-            write(fd, &c, 1);
-            sem_post(mutex_sem);
-            sem_post(full_sem);
-        }
-    }
-    
+    int pid = fork();
+	if (pid == 0) {
+		produce();
+		exit(0);
+	}
+	__pid_t pidt;
+	do {
+		pidt = wait(NULL);
+	} while (pidt > 0);
+	
+	sem_unlink("/mutex");
+	sem_unlink("/empty");
+	sem_unlink("/full");
+	close(fd);
 	return 0;
+}
+
+void produce() {
+	int readPos = 0;
+	lseek(fd, readNumPos, SEEK_SET);
+	write(fd, &readPos, sizeof(int));
+	int i;
+	for (i = 0; i < 500; i++) {
+		sem_wait(empty_sem);
+		sem_wait(mutex_sem);
+		lseek(fd, (i % buf_size) * sizeof(int), SEEK_SET);
+		const int buf = i;
+		write(fd, &buf, sizeof(int));
+		sem_post(mutex_sem);
+		sem_post(full_sem);
+	}
+}
+
+void customer() {
+	__pid_t pid = getpid();
+	int i;
+	for (i = 0; i < 500; i++) {
+		sem_wait(full_sem);
+		sem_wait(mutex_sem);
+		int readPos;
+		lseek(fd, readNumPos, SEEK_SET);
+		read(fd, &readPos, sizeof(int));
+		if (readPos == 500) {
+			sem_post(mutex_sem);
+			sem_post(full_sem);
+			return;
+		}
+		int num;
+		lseek(fd, (readPos % buf_size) * sizeof(int), SEEK_SET);
+		read(fd, &num, sizeof(int));
+		printf("%d:%d\n", pid, num);
+		fflush(stdout);
+		readPos++;
+		lseek(fd, readNumPos, SEEK_SET);
+		write(fd, &readPos, sizeof(int));
+		if (readPos == 500) {
+			sem_post(mutex_sem);
+			sem_post(full_sem);
+			return;
+		}
+		sem_post(mutex_sem);
+		sem_post(empty_sem);
+	}
 }
