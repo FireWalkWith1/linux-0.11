@@ -80,6 +80,9 @@ int sys_sem_wait(sem_t *sem)
             s->queue = qu;
             fprintk(3, "sleep pid=%ld\n", qu->task->pid);
         } else {
+            while(qp ->next != NULL) {
+                qp = qp -> next;
+            }
             struct queue* qu = &queues[queueIndex];
             queueIndex++;
             qu->task = current;
