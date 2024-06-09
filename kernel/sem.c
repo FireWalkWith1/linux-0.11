@@ -1,6 +1,7 @@
 
 #include <asm/system.h>
 #include <linux/sched.h>
+#include <linux/kernel.h>
 #include <asm/segment.h>
 
 
@@ -29,6 +30,8 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
     cli();
     char n[20];
     getName(name, n);
+    printk("sem name=%s", n);
+
     int index = getIndex(n);
     if (index == -1) {
         index = getFirstEmpty();
