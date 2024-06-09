@@ -90,6 +90,7 @@ int sys_sem_wait(sem_t *sem)
             fprintk(3, "sleep pid=%ld\n", qu->task->pid);
         }
         schedule();
+        fprintk(3, "i am run pid=%ld\n", current->pid);
     }
     sti();
     return 0;
