@@ -76,7 +76,7 @@ void produce() {
 	lseek(fd, readNumPos, SEEK_SET);
 	write(fd, &readPos, sizeof(int));
 	
-	for (i = 0; i < 10; i++) {
+	for (i = 0; i < 30; i++) {
 		sem_wait(empty_sem);
 		sem_wait(mutex_sem);
 		lseek(fd, (i % buf_size) * sizeof(int), SEEK_SET);
@@ -90,12 +90,12 @@ void customer() {
 	int i, readPos, num;
 	pid_t pid; 
 	pid = getpid();
-	for (i = 0; i < 10; i++) {
+	for (i = 0; i < 30; i++) {
 		sem_wait(full_sem);
 		sem_wait(mutex_sem);
 		lseek(fd, readNumPos, SEEK_SET);
 		read(fd, &readPos, sizeof(int));
-		if (readPos == 10) {
+		if (readPos == 30) {
 			sem_post(mutex_sem);
 			sem_post(full_sem);
 			return;
@@ -107,7 +107,7 @@ void customer() {
 		readPos++;
 		lseek(fd, readNumPos, SEEK_SET);
 		write(fd, &readPos, sizeof(int));
-		if (readPos == 10) {
+		if (readPos == 30) {
 			sem_post(mutex_sem);
 			sem_post(full_sem);
 			return;
