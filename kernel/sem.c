@@ -85,6 +85,7 @@ int sys_sem_wait(sem_t *sem)
             qu->next = qp;
             s->queue = qu;
         }
+        fprintk(3, "sleep pid=%ld\n", s->queue->task->pid);
         schedule();
     }
     sti();
@@ -107,6 +108,7 @@ int sys_sem_post(sem_t *sem)
         if (qp != NULL) {
             qp -> task -> state = 0;
             s->queue = qp -> next;
+            fprintk(3, "wakeup pid=%ld\n", qp->task->pid);
         }
     }
     sti();
