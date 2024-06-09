@@ -26,7 +26,6 @@ int main(int argc, char * argv[])
 	int i;
 	int pid;
 	pid_t pidt;
-	printf("size of int=%d", sizeof(int));
     fd = open("pc.txt", O_RDWR, 0770);
 	if (!fd) {
 		perror("打开文件失败\n");

@@ -68,12 +68,12 @@ int sys_sem_wait(sem_t *sem)
             struct queue q = {
                 current, NULL
             };
-            qp = &q;
+            s.queue = &q;
         } else {
             struct queue q = {
                 current, qp
             };
-            qp = &q;
+            s.queue = &q;
         }
         schedule();
     }
