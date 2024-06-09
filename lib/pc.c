@@ -22,6 +22,9 @@ void produce();
 
 int main(int argc, char * argv[])
 {
+	int i;
+	int pid;
+	pid_t pidt;
     fd = open("pc.txt", O_RDWR, 0770);
 	if (!fd) {
 		perror("打开文件失败\n");
@@ -42,20 +45,18 @@ int main(int argc, char * argv[])
 		perror("open full sem error");
 		return -1;
 	}
-    int i;
     for (i = 0; i < 10; i++) {
-        int pid = fork();
+        pid = fork();
         if (pid == 0) {
             customer();
 			exit(0);
         }
     }
-    int pid = fork();
+    pid = fork();
 	if (pid == 0) {
 		produce();
 		exit(0);
 	}
-	pid_t pidt;
 	do {
 		pidt = wait(NULL);
 	} while (pidt > 0);
@@ -68,10 +69,11 @@ int main(int argc, char * argv[])
 }
 
 void produce() {
+	int i;
 	int readPos = 0;
 	lseek(fd, readNumPos, SEEK_SET);
 	write(fd, &readPos, sizeof(int));
-	int i;
+	
 	for (i = 0; i < 500; i++) {
 		sem_wait(empty_sem);
 		sem_wait(mutex_sem);
@@ -84,8 +86,8 @@ void produce() {
 }
 
 void customer() {
-	pid_t pid = getpid();
 	int i;
+	pid_t pid = getpid();
 	for (i = 0; i < 500; i++) {
 		sem_wait(full_sem);
 		sem_wait(mutex_sem);
