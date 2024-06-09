@@ -6,6 +6,16 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
+typedef sem_t int;
+
+_syscall2(sem_t*, sem_open, const char*, name, unsigned int, value);
+
+_syscall(int, sem_wait, sem_t*, sem);
+
+_syscall(int, sem_post, sem_t*, sem);
+
+_syscall(int, sem_unlink, const char*, name);
+
 int fd;
 sem_t *mutex_sem, *empty_sem, *full_sem;
 const int buf_size = 10;
@@ -20,17 +30,17 @@ int main(int argc, char * argv[])
 		perror("打开文件失败\n");
 		return -1;
 	}
-    mutex_sem = sem_open("/mutex", O_CREAT, 0666, 1);
+    mutex_sem = sem_open("/mutex", 1);
 	if (mutex_sem == NULL) {
 		perror("open mutex sem error");
 		return -1;
 	}
-    empty_sem = sem_open("/empty", O_CREAT, 0666, 10);
+    empty_sem = sem_open("/empty", 10);
 	if (empty_sem == NULL) {
 		perror("open empty sem error");
 		return -1;
 	}
-    full_sem = sem_open("/full", O_CREAT, 0666, 0);
+    full_sem = sem_open("/full", 0);
 	if (full_sem == NULL) {
 		perror("open full sem error");
 		return -1;
