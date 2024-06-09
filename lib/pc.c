@@ -1,6 +1,5 @@
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <semaphore.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -10,11 +9,11 @@ typedef sem_t int;
 
 _syscall2(sem_t*, sem_open, const char*, name, unsigned int, value);
 
-_syscall(int, sem_wait, sem_t*, sem);
+_syscall1(int, sem_wait, sem_t*, sem);
 
-_syscall(int, sem_post, sem_t*, sem);
+_syscall1(int, sem_post, sem_t*, sem);
 
-_syscall(int, sem_unlink, const char*, name);
+_syscall1(int, sem_unlink, const char*, name);
 
 int fd;
 sem_t *mutex_sem, *empty_sem, *full_sem;
