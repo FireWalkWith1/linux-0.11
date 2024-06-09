@@ -1,7 +1,7 @@
 #define __LIBRARY__
+#include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <sys/wait.h>
 
 typedef int sem_t;
