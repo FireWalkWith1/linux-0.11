@@ -30,7 +30,7 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
     cli();
     char n[20];
     getName(name, n);
-    printk("sem name=%s", n);
+    printk("sem name=%s\n", n);
 
     int index = getIndex(n);
     if (index == -1) {
@@ -132,7 +132,6 @@ void getName(const char *name, char *n)
             break;
         }
         name++;
-        n++;
     }
     if(!finish) {
         n[19] = '\0';
