@@ -67,7 +67,7 @@ int sys_sem_wait(sem_t *sem)
     struct sem* s = &sems[index];
     s->value--;
     if (s->value < 0) {
-        current -> state = -1;
+        current -> state = 2;
         struct queue* qp = s->queue;
         if (qp == NULL) {
             struct queue* qu = &queues[queueIndex];
@@ -76,9 +76,6 @@ int sys_sem_wait(sem_t *sem)
             qu->next = NULL;
             s->queue = qu;
         } else {
-            struct queue q = {
-                current, qp
-            };
             struct queue* qu = &queues[queueIndex];
             queueIndex++;
             qu->task = current;
