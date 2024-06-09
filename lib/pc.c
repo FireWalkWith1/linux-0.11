@@ -77,8 +77,10 @@ void produce() {
 	write(fd, &readPos, sizeof(int));
 	
 	for (i = 0; i < 500; i++) {
+		printf("write process run...\n");
 		sem_wait(empty_sem);
 		sem_wait(mutex_sem);
+		printf("write process in...\n");
 		lseek(fd, (i % buf_size) * sizeof(int), SEEK_SET);
 		write(fd, &i, sizeof(int));
 		sem_post(mutex_sem);
@@ -91,8 +93,10 @@ void customer() {
 	pid_t pid; 
 	pid = getpid();
 	for (i = 0; i < 500; i++) {
+		printf("read process run...,pid=%d\n", pid);
 		sem_wait(full_sem);
 		sem_wait(mutex_sem);
+		printf("read process in...,pid=%d\n", pid);
 		lseek(fd, readNumPos, SEEK_SET);
 		read(fd, &readPos, sizeof(int));
 		if (readPos == 500) {
