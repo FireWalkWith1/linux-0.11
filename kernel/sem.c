@@ -96,13 +96,13 @@ int sys_sem_post(sem_t *sem)
         sti();
         return -1; 
     }
-    struct sem s = sems[index];
-    s.value++;
-    if (s.value <= 0) {
-        struct queue* qp = s.queue;
+    struct sem* s = &sems[index];
+    s->value++;
+    if (s->value <= 0) {
+        struct queue* qp = s->queue;
         if (qp != NULL) {
             qp -> task -> state = 0;
-            s.queue = qp -> next;
+            s->queue = qp -> next;
         }
     }
     sti();
