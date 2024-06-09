@@ -69,8 +69,8 @@ int main(int argc, char * argv[])
 }
 
 void produce() {
-	int i;
-	int readPos = 0;
+	int i, readPos;
+	readPos = 0;
 	lseek(fd, readNumPos, SEEK_SET);
 	write(fd, &readPos, sizeof(int));
 	
@@ -87,7 +87,8 @@ void produce() {
 
 void customer() {
 	int i;
-	pid_t pid = getpid();
+	pid_t pid; 
+	pid = getpid();
 	for (i = 0; i < 500; i++) {
 		sem_wait(full_sem);
 		sem_wait(mutex_sem);
