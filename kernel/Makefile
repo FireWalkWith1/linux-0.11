@@ -46,9 +46,6 @@ dep:
 	cp tmp_make Makefile
 	(cd chr_drv; make dep)
 	(cd blk_drv; make dep)
-#include <string.h>
-#include <asm/system.h>
-#include <linux/sched.h>
 ### Dependencies:
 sem.s sem.o: sem.c ../include/linux/sched.h ../include/asm/system.h ../include/asm/segment.h
 exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
