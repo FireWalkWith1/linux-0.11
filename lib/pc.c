@@ -32,17 +32,17 @@ int main(int argc, char * argv[])
 		return -1;
 	}
     mutex_sem = sem_open("/mutex", 1);
-	if (mutex_sem == NULL) {
+	if (mutex_sem == -1) {
 		perror("open mutex sem error");
 		return -1;
 	}
     empty_sem = sem_open("/empty", 10);
-	if (empty_sem == NULL) {
+	if (empty_sem == -1) {
 		perror("open empty sem error");
 		return -1;
 	}
     full_sem = sem_open("/full", 0);
-	if (full_sem == NULL) {
+	if (full_sem == -1) {
 		perror("open full sem error");
 		return -1;
 	}
