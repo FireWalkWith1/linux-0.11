@@ -24,7 +24,7 @@ int getIndex(const char* name);
 
 int getFirstEmpty();
 
-sem_t *sem_open(const char *name, unsigned int value)
+sem_t *sys_sem_open(const char *name, unsigned int value)
 {
     cli();
     char n[20];
@@ -48,7 +48,7 @@ sem_t *sem_open(const char *name, unsigned int value)
     return (sem_t*)index;
 }
 
-int sem_wait(sem_t *sem)
+int sys_sem_wait(sem_t *sem)
 {
     cli();
     int index = (int)sem;
@@ -78,7 +78,7 @@ int sem_wait(sem_t *sem)
     return 0;
 }
 
-int sem_post(sem_t *sem)
+int sys_sem_post(sem_t *sem)
 {
     cli();
     int index = (int)sem;
@@ -99,7 +99,7 @@ int sem_post(sem_t *sem)
     return 0;
 }
 
-int sem_unlink(const char *name)
+int sys_sem_unlink(const char *name)
 {
     cli();
     char n[20];
