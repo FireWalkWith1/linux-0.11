@@ -4,16 +4,21 @@
 #include <linux/kernel.h>
 #include <asm/segment.h>
 
+struct queue {
+    struct task_struct * task;
+    struct queue * next;
+};
 
 typedef struct sem{
     char name[20];
     int value;
-    struct queue {
-        struct task_struct * task;
-        struct queue * next;
-    } *queue;
+    struct queue *queue;
     int exist;
 } semtable[20];
+
+struct queue queues[1000];
+
+int queueIndex = 0;
 
 semtable sems;
 
@@ -39,13 +44,13 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
             sti();
             return -1; 
         }
-        struct sem sem = sems[index];
-        strcpy(sem.name, n);
-        sem.value = value;
-        sem.exist = 1;
+        struct sem* sem = &sems[index];
+        strcpy(sem->name, n);
+        sem->value = value;
+        sem->exist = 1;
     } else {
-        struct sem sem = sems[index];
-        sem.value = value;
+        struct sem* sem = &sems[index];
+        sem->value = value;
     }
     sti();
     return (sem_t*)index;
@@ -59,21 +64,26 @@ int sys_sem_wait(sem_t *sem)
         sti();
         return -1; 
     }
-    struct sem s = sems[index];
-    s.value--;
-    if (s.value < 0) {
+    struct sem* s = &sems[index];
+    s->value--;
+    if (s->value < 0) {
         current -> state = -1;
-        struct queue* qp = s.queue;
+        struct queue* qp = s->queue;
         if (qp == NULL) {
-            struct queue q = {
-                current, NULL
-            };
-            s.queue = &q;
+            struct queue* qu = &queues[queueIndex];
+            queueIndex++;
+            qu->task = current;
+            qu->next = NULL;
+            s->queue = qu;
         } else {
             struct queue q = {
                 current, qp
             };
-            s.queue = &q;
+            struct queue* qu = &queues[queueIndex];
+            queueIndex++;
+            qu->task = current;
+            qu->next = qp;
+            s->queue = qu;
         }
         schedule();
     }
