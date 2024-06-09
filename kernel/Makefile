@@ -47,7 +47,7 @@ dep:
 	(cd chr_drv; make dep)
 	(cd blk_drv; make dep)
 ### Dependencies:
-sem.s sem.o: sem.c ../include/linux/sched.h ../include/asm/system.h ../include/asm/segment.h
+sem.s sem.o: sem.c ../include/unistd.h
 exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
   ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
   ../include/linux/head.h ../include/linux/fs.h ../include/linux/mm.h \
