@@ -44,7 +44,7 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
             sti();
             return -1; 
         }
-        //printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, value, index);
+        printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, value, index);
         struct sem* sem = &sems[index];
         strcpy(sem->name, n);
         sem->value = value;
@@ -53,7 +53,7 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
         struct sem* sem = &sems[index];
         sem->value = value;
     }
-    //printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, value, index);
+    printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, value, index);
     sti();
     return (sem_t*)index;
 }
@@ -68,7 +68,7 @@ int sys_sem_wait(sem_t *sem)
     }
     struct sem* s = &sems[index];
     s->value--;
-    //printk("sys_sem_wait,name=%s,value=%d,pid=%ld\n", s->name, s->value, current->pid);
+    printk("sys_sem_wait,name=%s,value=%d,pid=%ld\n", s->name, s->value, current->pid);
     if (s->value < 0) {
         current -> state = 2;
         struct queue* qp = s->queue;
@@ -101,7 +101,7 @@ int sys_sem_post(sem_t *sem)
     }
     struct sem* s = &sems[index];
     s->value++;
-    //printk("sys_sem_post,name=%s,value=%d,pid=%ld\n", s->name, s->value, current->pid);
+    printk("sys_sem_post,name=%s,value=%d,pid=%ld\n", s->name, s->value, current->pid);
     if (s->value <= 0) {
         struct queue* qp = s->queue;
         if (qp != NULL) {
