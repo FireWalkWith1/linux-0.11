@@ -5,13 +5,13 @@
 
 typedef int sem_t;
 
-_syscall2(sem_t *, sem_open, const char*, name, unsigned int, value);
+_syscall2(sem_t*, sem_open, const char*, name, unsigned int, value);
 
-_syscall1(int, sem_wait, sem_t *, sem);
+_syscall1(int, sem_wait, sem_t*, sem);
 
-_syscall1(int, sem_post, sem_t *, sem);
+_syscall1(int, sem_post, sem_t*, sem);
 
-_syscall1(int, sem_unlink, const char *, name);
+_syscall1(int, sem_unlink, const char*, name);
 
 int fd;
 sem_t *mutex_sem, *empty_sem, *full_sem;
