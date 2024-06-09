@@ -52,7 +52,7 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
         struct sem* sem = &sems[index];
         sem->value = value;
     }
-    printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, index);
+    printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, value, index);
     sti();
     return (sem_t*)index;
 }
