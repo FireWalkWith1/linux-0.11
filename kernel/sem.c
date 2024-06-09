@@ -33,12 +33,15 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
     printk("sem name=%s\n", n);
 
     int index = getIndex(n);
+    printk("index1=%d\n", index);
+
     if (index == -1) {
         index = getFirstEmpty();
         if (index == -1) {
             sti();
             return -1; 
         }
+        printk("index2=%d\n", index);
         struct sem sem = sems[index];
         strcpy(sem.name, n);
         sem.value = value;
