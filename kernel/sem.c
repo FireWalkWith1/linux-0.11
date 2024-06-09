@@ -157,7 +157,7 @@ int getIndex(const char* name) {
             int index;
             for (index = 0; index < 20; index++) {
                 if (name[index] != sem.name[index]) {
-                    continue;
+                    break;
                 }
                 if (name[index] == '\0') {
                     return i;
