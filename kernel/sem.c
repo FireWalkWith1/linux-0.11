@@ -78,13 +78,14 @@ int sys_sem_wait(sem_t *sem)
             qu->task = current;
             qu->next = NULL;
             s->queue = qu;
+            fprintk(3, "sleep pid=%ld\n", qu->task->pid);
         } else {
             struct queue* qu = &queues[queueIndex];
             queueIndex++;
             qu->task = current;
             qp->next = qu;
+            fprintk(3, "sleep pid=%ld\n", qu->task->pid);
         }
-        fprintk(3, "sleep pid=%ld\n", s->queue->task->pid);
         schedule();
     }
     sti();
