@@ -119,7 +119,7 @@ int sys_sem_unlink(const char *name)
         sti();
         return -1; 
     }
-    sems[index].exist = 0;
+    (&(sems[index]))->exist = 0;
     sti();
     return 0;
 }
