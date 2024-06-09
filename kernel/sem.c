@@ -44,6 +44,7 @@ sem_t *sys_sem_open(const char *name, unsigned int value)
             sti();
             return -1; 
         }
+        printk("sys_sem_open,name=%s,value=%d,index=%d\n", n, value, index);
         struct sem* sem = &sems[index];
         strcpy(sem->name, n);
         sem->value = value;
