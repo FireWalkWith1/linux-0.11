@@ -5,6 +5,7 @@
         "string.h": "c",
         "errno.h": "c",
         "system.h": "c",
-        "sched.h": "c"
+        "sched.h": "c",
+        "segment.h": "c"
     }
 }

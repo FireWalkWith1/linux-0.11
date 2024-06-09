@@ -1,6 +1,6 @@
-#include <string.h>
 #include <asm/system.h>
 #include <linux/sched.h>
+#include <segment.h>
 
 
 typedef struct sem{

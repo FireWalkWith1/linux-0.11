@@ -50,7 +50,7 @@ dep:
 #include <asm/system.h>
 #include <linux/sched.h>
 ### Dependencies:
-sem.s sem.o: sem.c ../include/linux/sched.h ../include/asm/system.h ../include/string.h
+sem.s sem.o: sem.c ../include/linux/sched.h ../include/asm/system.h ../include/asm/segment.h
 exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
   ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
   ../include/linux/head.h ../include/linux/fs.h ../include/linux/mm.h \
