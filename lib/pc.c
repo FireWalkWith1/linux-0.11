@@ -1,9 +1,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <sys/wait.h>
-#include <stdlib.h>
 
 typedef int sem_t;
 
@@ -57,7 +55,7 @@ int main(int argc, char * argv[])
 		produce();
 		exit(0);
 	}
-	__pid_t pidt;
+	pid_t pidt;
 	do {
 		pidt = wait(NULL);
 	} while (pidt > 0);
@@ -86,7 +84,7 @@ void produce() {
 }
 
 void customer() {
-	__pid_t pid = getpid();
+	pid_t pid = getpid();
 	int i;
 	for (i = 0; i < 500; i++) {
 		sem_wait(full_sem);
@@ -103,7 +101,6 @@ void customer() {
 		lseek(fd, (readPos % buf_size) * sizeof(int), SEEK_SET);
 		read(fd, &num, sizeof(int));
 		printf("%d:%d\n", pid, num);
-		fflush(stdout);
 		readPos++;
 		lseek(fd, readNumPos, SEEK_SET);
 		write(fd, &readPos, sizeof(int));

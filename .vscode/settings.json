@@ -6,6 +6,10 @@
         "errno.h": "c",
         "system.h": "c",
         "sched.h": "c",
-        "segment.h": "c"
+        "segment.h": "c",
+        "stat.h": "c",
+        "unistd.h": "c",
+        "wait.h": "c",
+        "stddef.h": "c"
     }
 }
