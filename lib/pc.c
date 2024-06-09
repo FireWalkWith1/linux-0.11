@@ -17,7 +17,7 @@ _syscall1(int, sem_unlink, const char*, name);
 int fd;
 sem_t *mutex_sem, *empty_sem, *full_sem;
 const int buf_size = 10;
-const int readNumPos = buf_size * 4;
+const int readNumPos = 40;
 void customer();
 void produce();
 
