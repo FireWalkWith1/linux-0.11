@@ -107,7 +107,7 @@ void customer() {
 		lseek(fd, (readPos % buf_size) * sizeof(int), SEEK_SET);
 		read(fd, &num, sizeof(int));
 		printf("%d:%d\n", pid, num);
-		fflush(stdout)
+		fflush(stdout);
 		readPos++;
 		lseek(fd, readNumPos, SEEK_SET);
 		write(fd, &readPos, sizeof(int));
