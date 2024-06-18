@@ -9,9 +9,9 @@ int main(int argc, char const *argv[])
 {
     int shmid;
     int * a;
+    int i;
     shmid = shmget(111, 1);
-    a = shmat(shmid);
-    int i = 0;
+    a = (int *)shmat(shmid);
     for (i = 0 ; i < 100; i++) {
         *a = i;
         a++;
