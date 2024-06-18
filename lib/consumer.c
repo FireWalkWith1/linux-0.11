@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     int * a;
     int i;
     shmid = shmget(111, 0);
-    a = (int *)shmat(shmid, 0, 0);
+    a = (int *)shmat(shmid);
     for (i = 0 ; i < 100; i++) {
         printf("%d\n", *a);
         a++;
