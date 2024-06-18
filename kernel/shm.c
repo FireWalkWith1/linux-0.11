@@ -55,7 +55,7 @@ int sys_shmmat(int shmid) {
     int i;
     for (i = 0; i < 10; i++) {
         struct addr * addr = &addrs[i];
-        if (addr -> pid = current -> pid) {
+        if (addr -> pid == current -> pid) {
             long address = addr -> address + 4096;
             long base = get_base(current -> ldt[1]);
             put_page(shm.page, base + address);
