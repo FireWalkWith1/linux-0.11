@@ -1,3 +1,4 @@
+#include <asm/system.h>
 #include <linux/mm.h>
 #include <linux/sched.h>
 #include <errno.h>
