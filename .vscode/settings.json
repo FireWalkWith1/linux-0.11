@@ -2,6 +2,8 @@
     "files.associations": {
         "mm.h": "c",
         "errno.h": "c",
-        "sched.h": "c"
+        "sched.h": "c",
+        "string.h": "c",
+        "kernel.h": "c"
     }
 }
