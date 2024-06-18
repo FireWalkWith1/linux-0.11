@@ -42,7 +42,7 @@ int sys_shmget(int key, int is_create) {
 }
 
 
-int sys_shmat(int shmid) {
+int sys_shmmat(int shmid) {
     struct shm shm = shms[shmid];
     if (shm.page == 0) {
         return -EINVAL;
