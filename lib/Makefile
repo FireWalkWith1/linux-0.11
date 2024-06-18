@@ -24,7 +24,7 @@ CPP	=gcc-3.4 -E -nostdinc -I../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS  = ctype.o _exit.o open.o close.o errno.o write.o dup.o setsid.o \
+OBJS  = shm.o ctype.o _exit.o open.o close.o errno.o write.o dup.o setsid.o \
 	execve.o wait.o string.o malloc.o
 
 lib.a: $(OBJS)
@@ -42,6 +42,7 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
+shm.s shm.o: shm.c ../include/linux/mm.h ../include/linux/sched.h ../include/errno.h
 _exit.s _exit.o : _exit.c ../include/unistd.h ../include/sys/stat.h \
   ../include/sys/types.h ../include/sys/times.h ../include/sys/utsname.h \
   ../include/utime.h 
