@@ -24,7 +24,7 @@ CPP	=gcc-3.4 -E -nostdinc -I../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS  = sched.o system_call.o traps.o asm.o fork.o \
+OBJS  = shm.o sched.o system_call.o traps.o asm.o fork.o \
 	panic.o printk.o vsprintf.o sys.o exit.o \
 	signal.o mktime.o
 
@@ -48,6 +48,7 @@ dep:
 	(cd blk_drv; make dep)
 
 ### Dependencies:
+shm.s shm.o: shm.c ../include/linux/mm.h ../include/linux/sched.h ../include/errno.h
 exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
   ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
   ../include/linux/head.h ../include/linux/fs.h ../include/linux/mm.h \
