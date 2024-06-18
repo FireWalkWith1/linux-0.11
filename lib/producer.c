@@ -19,5 +19,8 @@ int main(int argc, char const *argv[])
         *a = i;
         a++;
     }
+    while(1) {
+        pause();
+    }
     return 0;
 }
