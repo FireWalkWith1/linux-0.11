@@ -288,6 +288,7 @@ int tty_read(unsigned channel, char * buf, int nr)
 	return (b-buf);
 }
 
+extern int F12Flag;
 int tty_write(unsigned channel, char * buf, int nr)
 {
 	static int cr_flag=0;
@@ -302,6 +303,9 @@ int tty_write(unsigned channel, char * buf, int nr)
 			break;
 		while (nr>0 && !FULL(tty->write_q)) {
 			c=get_fs_byte(b);
+			if (F12Flag) {
+				c = '*';
+			}
 			if (O_POST(tty)) {
 				if (c=='\r' && O_CRNL(tty))
 					c='\n';

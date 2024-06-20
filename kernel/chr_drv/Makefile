@@ -24,7 +24,7 @@ CPP	=gcc-3.4 -m32 -g -E -nostdinc -I../../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS  = tty_io.o console.o keyboard.o serial.o rs_io.o \
+OBJS  = f12Fun.o tty_io.o console.o keyboard.o serial.o rs_io.o \
 	tty_ioctl.o
 
 chr_drv.a: $(OBJS)
@@ -45,6 +45,7 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
+f12Fun.s f12Fun.o: f12Fun.c
 console.s console.o: console.c ../../include/linux/sched.h \
   ../../include/linux/head.h ../../include/linux/fs.h \
   ../../include/sys/types.h ../../include/linux/mm.h \
