@@ -218,7 +218,7 @@ void ps_info(char * str) {
 
 int proc_read(int dev, struct file * filp, char * buf, int count)
 {
-	// printk("proc_read>>>dev=%d,count=%d\n", dev, count);
+	printk("proc_read>>>dev=%d,count=%d\n", dev, count);
 	if (count == 0) {
 		return 0;
 	}
@@ -232,6 +232,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		// printk("hd_infos>>>str=%s\n", str);
 	}
 	int len = strlen(str);
+	printk("len=%d\n", len);
 	int f_pos = filp -> f_pos;
 	printk("f_pos=%d\n", f_pos);
 	if (f_pos + count + 1 > len) {
