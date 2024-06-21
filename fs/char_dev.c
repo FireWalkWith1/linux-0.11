@@ -246,6 +246,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 	printk("count=%d\n", count);
 	for (i = 0; i < count; i++) {
 		put_fs_byte(str[f_pos + i], buf);
+		buf++;
 	}
 	filp -> f_pos = f_pos + count;
 	free(str);
