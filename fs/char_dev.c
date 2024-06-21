@@ -105,37 +105,6 @@ int rw_char(int rw,int dev, char * buf, int count, off_t * pos)
 	return call_addr(rw,MINOR(dev),buf,count,pos);
 }
 
-int proc_read(int dev, struct file * filp, char * buf, int count)
-{
-	if (count == 0) {
-		return 0;
-	}
-	char * str = malloc(4096);
-	if (dev == 0) {
-		ps_info(str);
-	}
-	if (dev == 1) {
-		hd_info(str);
-	}
-	int len = strlen(str);
-	int f_pos = filp -> f_pos;
-	if (f_pos + count + 1 > len) {
-		count = len - f_pos - 1;
-	}
-	if (count == 0) {
-		free(str);
-		return 0;
-	}
-	int i;
-	for (i = 0; i < count; i++) {
-		put_fs_byte(str[f_pos + i], buf);
-	}
-	filp -> f_pos = f_pos + count;
-	free(str);
-	return count;
-
-}
-
 static int sprintf(char *buf, const char *fmt, ...)
 {
 	va_list args;
@@ -147,17 +116,6 @@ static int sprintf(char *buf, const char *fmt, ...)
 	return i;
 }
 
-void ps_info(char * str) {
-	struct task_struct ** p;
-	str = "pid\tstate\tfather\tcount\tstart_time\n";
-	for(p = &LAST_TASK ; p > &FIRST_TASK ; --p) {
-		if (*p) {
-			char buf[50];
-			sprintf(buf, "%ld\t%ld\t%ld\t%ld\t%ld\n", (*p)->pid, (*p)->state, (*p)->father, (*p)->counter, (*p)->start_time);
-			strcat(str, buf);
-		}
-	}		
-}
 
 void hd_info(char * str) {
 	struct super_block * sb = get_super(current -> root -> i_dev);	
@@ -244,4 +202,47 @@ void hd_info(char * str) {
 	sprintf(buf, "total_blocks:\t%hu\nfree_blocks:\t%hu\nused_blocks:\t%hu\ntotal_inodes:\t%d\n",
 		total_blocks, free_blocks, used_blocks, total_inodes);
 	strcat(str, buf);
+}
+
+void ps_info(char * str) {
+	struct task_struct ** p;
+	str = "pid\tstate\tfather\tcount\tstart_time\n";
+	for(p = &LAST_TASK ; p > &FIRST_TASK ; --p) {
+		if (*p) {
+			char buf[50];
+			sprintf(buf, "%ld\t%ld\t%ld\t%ld\t%ld\n", (*p)->pid, (*p)->state, (*p)->father, (*p)->counter, (*p)->start_time);
+			strcat(str, buf);
+		}
+	}		
+}
+
+int proc_read(int dev, struct file * filp, char * buf, int count)
+{
+	if (count == 0) {
+		return 0;
+	}
+	char * str = malloc(4096);
+	if (dev == 0) {
+		ps_info(str);
+	}
+	if (dev == 1) {
+		hd_info(str);
+	}
+	int len = strlen(str);
+	int f_pos = filp -> f_pos;
+	if (f_pos + count + 1 > len) {
+		count = len - f_pos - 1;
+	}
+	if (count == 0) {
+		free(str);
+		return 0;
+	}
+	int i;
+	for (i = 0; i < count; i++) {
+		put_fs_byte(str[f_pos + i], buf);
+	}
+	filp -> f_pos = f_pos + count;
+	free(str);
+	return count;
+
 }
