@@ -219,22 +219,31 @@ void ps_info(char * str) {
 	}		
 }
 
+char str_ps[1024];
+char str_hd[1024];
+
 int proc_read(int dev, struct file * filp, char * buf, int count)
 {
 	if (count == 0) {
 		return 0;
 	}
-	char * str = malloc(4096);
+	char * str;
+	int f_pos = filp -> f_pos;
+
 	if (dev == 0) {
-		ps_info(str);
-		// printk("ps_info>>>str=%s\n", str);
+		str = str_ps;
+		if (f_pos == 0)
+			ps_info(str);
 	}
 	if (dev == 1) {
-		hd_infos(str);
-		// printk("hd_infos>>>str=%s\n", str);
+		str = str_ps;
+		if (f_pos == 0)
+			hd_infos(str);
 	}
+	
+	
 	int len = strlen(str);
-	int f_pos = filp -> f_pos;
+	
 	if (f_pos + count + 1 > len) {
 		count = len - f_pos - 1;
 	}
