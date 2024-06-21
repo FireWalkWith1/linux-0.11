@@ -206,7 +206,7 @@ void hd_infos(char * str) {
 
 void ps_info(char * str) {
 	struct task_struct ** p;
-	char * head = str = "pid\tstate\tfather\tcount\tstart_time\n";
+	char * head = "pid\tstate\tfather\tcount\tstart_time\n";
 	strcpy(str, head);
 	for(p = &LAST_TASK ; p > &FIRST_TASK ; --p) {
 		if (*p) {
