@@ -248,7 +248,6 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		count = len - f_pos - 1;
 	}
 	if (count == 0) {
-		free(str);
 		return 0;
 	}
 	int i;
@@ -257,7 +256,5 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		buf++;
 	}
 	filp -> f_pos = f_pos + count;
-	free(str);
 	return count;
-
 }
