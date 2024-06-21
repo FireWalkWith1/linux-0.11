@@ -206,7 +206,8 @@ void hd_infos(char * str) {
 
 void ps_info(char * str) {
 	struct task_struct ** p;
-	str = "pid\tstate\tfather\tcount\tstart_time\n";
+	char * head = str = "pid\tstate\tfather\tcount\tstart_time\n";
+	strcpy(str, head);
 	for(p = &LAST_TASK ; p > &FIRST_TASK ; --p) {
 		if (*p) {
 			char buf[50];
@@ -229,7 +230,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 	}
 	if (dev == 1) {
 		hd_infos(str);
-		// printk("hd_infos>>>str=%s\n", str);
+		printk("hd_infos>>>str=%s\n", str);
 	}
 	int len = strlen(str);
 	int f_pos = filp -> f_pos;
