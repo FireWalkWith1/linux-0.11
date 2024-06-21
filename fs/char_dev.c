@@ -201,7 +201,7 @@ void hd_infos(char * str) {
 	char buf[100];
 	sprintf(buf, "total_blocks:\t%hu\nfree_blocks:\t%hu\nused_blocks:\t%hu\ntotal_inodes:\t%d\n",
 		total_blocks, free_blocks, used_blocks, total_inodes);
-	strcat(str, buf);
+	strcpy(str, buf);
 }
 
 void ps_info(char * str) {
