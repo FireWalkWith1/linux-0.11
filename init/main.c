@@ -73,6 +73,10 @@ inb_p(0x71); \
 
 #define BCD_TO_BIN(val) ((val)=((val)&15) + ((val)>>4)*10)
 
+_syscall2(int, mkdir, const char*, name, mode_t, mode)
+
+_syscall3(int, mknod, const char*, filename, mode_t, mode, dev_t, dev)
+
 static void time_init(void)
 {
 	struct tm time;
@@ -171,8 +175,12 @@ void init(void)
 
 	setup((void *) &drive_info);
 	(void) open("/dev/tty0",O_RDWR,0);
+	mkdir("/proc", 0755);
+	mknod("/proc/psinfo", S_ISPROC|0444, 0);
+	mknod("/proc/hdinfo", S_ISPROC|0444, 1);
 	(void) dup(0);
 	(void) dup(0);
+
 	printf("%d buffers = %d bytes buffer space\n\r",NR_BUFFERS,
 		NR_BUFFERS*BLOCK_SIZE);
 	printf("Free mem: %d bytes\n\r",memory_end-main_memory_start);
