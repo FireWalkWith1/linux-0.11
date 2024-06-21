@@ -118,7 +118,7 @@ static int sprintf(char *buf, const char *fmt, ...)
 
 
 void hd_infos(char * str) {
-	printk("current -> root -> i_dev=", current -> root -> i_dev);
+	printk("current -> root -> i_dev=%hu\n", current -> root -> i_dev);
 	struct super_block * sb = get_super(current -> root -> i_dev);	
 	struct buffer_head * bh;
 	unsigned short total_blocks = sb->s_nzones;	
