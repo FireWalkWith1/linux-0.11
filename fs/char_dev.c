@@ -117,7 +117,7 @@ static int sprintf(char *buf, const char *fmt, ...)
 }
 
 
-void hd_info(char * str) {
+void hd_infos(char * str) {
 	struct super_block * sb = get_super(current -> root -> i_dev);	
 	struct buffer_head * bh;
 	unsigned short total_blocks = sb->s_nzones;	
@@ -226,7 +226,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		ps_info(str);
 	}
 	if (dev == 1) {
-		hd_info(str);
+		hd_infos(str);
 	}
 	int len = strlen(str);
 	int f_pos = filp -> f_pos;
