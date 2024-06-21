@@ -167,8 +167,9 @@ void hd_infos(char * str) {
 	for(i=0; s_imap_blocks; i++)
 	{
 		bh = sb->s_imap[i];
-		char * p=(char *)bh->b_data;
-		while(*p != '\0') {
+		unsigned char * p=(unsigned char *)bh->b_data;
+		int j;
+		for (j = 0; j < 1024; j++) {
 			if ((*p) & 0x01) {
 				total_inodes++;
 			}
