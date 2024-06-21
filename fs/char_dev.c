@@ -125,7 +125,7 @@ void hd_infos(char * str) {
 	unsigned short s_zmap_blocks = sb -> s_zmap_blocks;
 	unsigned short used_blocks = 0;
 	int i;
-	for(i=0; s_zmap_blocks; i++)
+	for(i=0; i < s_zmap_blocks; i++)
 	{
 		bh = sb->s_zmap[i];
 		unsigned char * p=(unsigned char *)bh->b_data;
@@ -164,7 +164,7 @@ void hd_infos(char * str) {
 	}
 	unsigned short free_blocks = total_blocks - used_blocks;
 	int total_inodes = 0;
-	for(i=0; s_imap_blocks; i++)
+	for(i=0; i < s_imap_blocks; i++)
 	{
 		bh = sb->s_imap[i];
 		unsigned char * p=(unsigned char *)bh->b_data;
