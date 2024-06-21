@@ -118,7 +118,6 @@ static int sprintf(char *buf, const char *fmt, ...)
 
 
 void hd_infos(char * str) {
-	printk("current -> root -> i_dev=%hu\n", current -> root -> i_dev);
 	struct super_block * sb = get_super(current -> root -> i_dev);	
 	struct buffer_head * bh;
 	unsigned short total_blocks = sb->s_nzones;	
@@ -221,7 +220,6 @@ void ps_info(char * str) {
 
 int proc_read(int dev, struct file * filp, char * buf, int count)
 {
-	printk("proc_read>>>dev=%d,count=%d\n", dev, count);
 	if (count == 0) {
 		return 0;
 	}
@@ -235,9 +233,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		// printk("hd_infos>>>str=%s\n", str);
 	}
 	int len = strlen(str);
-	printk("len=%d\n", len);
 	int f_pos = filp -> f_pos;
-	printk("f_pos=%d\n", f_pos);
 	if (f_pos + count + 1 > len) {
 		count = len - f_pos - 1;
 	}
@@ -246,7 +242,6 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		return 0;
 	}
 	int i;
-	printk("count=%d\n", count);
 	for (i = 0; i < count; i++) {
 		put_fs_byte(str[f_pos + i], buf);
 		buf++;
