@@ -129,8 +129,9 @@ void hd_infos(char * str) {
 	for(i=0; s_zmap_blocks; i++)
 	{
 		bh = sb->s_zmap[i];
-		char * p=(char *)bh->b_data;
-		while(*p != '\0') {
+		unsigned char * p=(unsigned char *)bh->b_data;
+		int j;
+		for (j = 0; j < 1024; j++) {
 			if ((*p) & 0x01) {
 				used_blocks++;
 			}
@@ -160,6 +161,7 @@ void hd_infos(char * str) {
 			}
 			p++;
 		}
+
 	}
 	unsigned short free_blocks = total_blocks - used_blocks;
 	int total_inodes = 0;
