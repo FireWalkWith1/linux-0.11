@@ -218,18 +218,18 @@ void ps_info(char * str) {
 
 int proc_read(int dev, struct file * filp, char * buf, int count)
 {
-	printk("proc_read>>>dev=%d，count=%d", dev, count);
+	printk("proc_read>>>dev=%d，count=%d\n", dev, count);
 	if (count == 0) {
 		return 0;
 	}
 	char * str = malloc(4096);
 	if (dev == 0) {
 		ps_info(str);
-		printk("ps_info>>>str=%s", str);
+		printk("ps_info>>>str=%s\n", str);
 	}
 	if (dev == 1) {
 		hd_infos(str);
-		printk("hd_infos>>>str=%s", str);
+		printk("hd_infos>>>str=%s\n", str);
 	}
 	int len = strlen(str);
 	int f_pos = filp -> f_pos;
