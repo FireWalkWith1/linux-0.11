@@ -233,6 +233,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 	}
 	int len = strlen(str);
 	int f_pos = filp -> f_pos;
+	printk("f_pos=%d\n", f_pos);
 	if (f_pos + count + 1 > len) {
 		count = len - f_pos - 1;
 	}
@@ -241,6 +242,7 @@ int proc_read(int dev, struct file * filp, char * buf, int count)
 		return 0;
 	}
 	int i;
+	printk("count=%d\n", count);
 	for (i = 0; i < count; i++) {
 		put_fs_byte(str[f_pos + i], buf);
 	}
