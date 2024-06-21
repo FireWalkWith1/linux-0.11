@@ -197,7 +197,6 @@ void hd_infos(char * str) {
 			p++;
 		}
 	}
-	str = '\0';
 	char buf[100];
 	sprintf(buf, "total_blocks:\t%hu\nfree_blocks:\t%hu\nused_blocks:\t%hu\ntotal_inodes:\t%d\n",
 		total_blocks, free_blocks, used_blocks, total_inodes);
@@ -219,18 +218,18 @@ void ps_info(char * str) {
 
 int proc_read(int dev, struct file * filp, char * buf, int count)
 {
-	printk("proc_read>>>dev=%d,count=%d\n", dev, count);
+	// printk("proc_read>>>dev=%d,count=%d\n", dev, count);
 	if (count == 0) {
 		return 0;
 	}
 	char * str = malloc(4096);
 	if (dev == 0) {
 		ps_info(str);
-		printk("ps_info>>>str=%s\n", str);
+		// printk("ps_info>>>str=%s\n", str);
 	}
 	if (dev == 1) {
 		hd_infos(str);
-		printk("hd_infos>>>str=%s\n", str);
+		// printk("hd_infos>>>str=%s\n", str);
 	}
 	int len = strlen(str);
 	int f_pos = filp -> f_pos;
