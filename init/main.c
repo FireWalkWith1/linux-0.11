@@ -177,8 +177,8 @@ void init(void)
 	setup((void *) &drive_info);
 	(void) open("/dev/tty0",O_RDWR,0);
 	mkdir("/proc", 0755);
-	mknod("/proc/psinfo", S_ISPROC|0444, 0);
-	mknod("/proc/hdinfo", S_ISPROC|0444, 1);
+	mknod("/proc/psinfo", S_IFPROC|0444, 0);
+	mknod("/proc/hdinfo", S_IFPROC|0444, 1);
 	(void) dup(0);
 	(void) dup(0);
 
