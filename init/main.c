@@ -38,6 +38,7 @@ static inline _syscall0(int,sync)
 #include <sys/types.h>
 
 #include <linux/fs.h>
+#include <sys/stat.h>
 
 static char printbuf[1024];
 
